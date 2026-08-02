@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>东钱湖秘色瓷 · 湖泥与焰火的千年秘语</title>
+<meta name="description" content="东钱湖秘色瓷知识图谱——探索湖泥独韵、古今对照、范蠡财智文创，发现秘色瓷千年魅力">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== Navigation ===== -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo">🫖 东钱湖秘色瓷</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#home" class="active" data-section="home">秘色宇宙</a>
+      <a href="#knowledge-graph" data-section="knowledge-graph">知识图谱</a>
+      <a href="#timeline" data-section="timeline">时光轴</a>
+      <a href="#craft" data-section="craft">湖泥独韵</a>
+      <a href="#compare" data-section="compare">古今对话</a>
+      <a href="#cc-gallery" data-section="cc-gallery">文创廊</a>
+      <a href="#inheritors" data-section="inheritors">传承人星谱</a>
+      <a href="#knowledge-base" data-section="knowledge-base">知识库</a>
+    </div>
+    <button class="nav-mobile-toggle" id="navToggle" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ===== Module 1: Hero / 秘色宇宙总览 ===== -->
+<section class="hero" id="home">
+  <div class="hero-particles" id="heroParticles"></div>
+  <div class="hero-content">
+    <p class="hero-subtitle">—— 东钱湖秘色瓷 ——</p>
+    <h1 class="hero-title">湖泥与焰火的千年秘语</h1>
+    <div class="hero-cards">
+      <div class="hero-card" onclick="scrollToSection('craft')">
+        <div class="hero-card-icon">🏺</div>
+        <h3>湖泥独韵</h3>
+        <p>解密东钱湖泥的独特成分，探寻"青绿微泛黄"的千年密码</p>
+      </div>
+      <div class="hero-card" onclick="scrollToSection('compare')">
+        <div class="hero-card-icon">🔍</div>
+        <h3>古今对照</h3>
+        <p>出土残片与现代复刻并列对比，感受跨越时空的匠心传承</p>
+      </div>
+      <div class="hero-card" onclick="scrollToSection('cc-gallery')">
+        <div class="hero-card-icon">💰</div>
+        <h3>范蠡财智文创</h3>
+        <p>千年湖底泥遇见商圣智慧，传统工艺焕发当代新生</p>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>探索秘色宇宙</span>
+    <span>↓</span>
+  </div>
+</section>
+
+<!-- ===== Module 2: 知识图谱交互探索 ===== -->
+<section class="section kg-section" id="knowledge-graph">
+  <div class="section-header">
+    <span class="section-tag">核心交互</span>
+    <h2>知识图谱 · 探索秘色世界</h2>
+    <p>拖拽节点、点击探索，三条高亮路径串联起湖泥、工艺、器物的完整故事</p>
+  </div>
+
+  <div class="path-toggle" style="max-width:1400px;margin:0 auto 1rem;padding:0 2rem;">
+    <span style="font-size:0.8rem;color:var(--text-muted);line-height:2;">高亮路径：</span>
+    <button class="path-toggle-btn active" data-path="all">全部展示</button>
+    <button class="path-toggle-btn" data-path="clay-chain">🏺 湖泥工艺链</button>
+    <button class="path-toggle-btn" data-path="compare-chain">🔍 古今对比链</button>
+    <button class="path-toggle-btn" data-path="cc-chain">💰 文创链</button>
+  </div>
+
+  <div class="kg-container">
+    <!-- Legend -->
+    <div class="kg-legend">
+      <h3>图例</h3>
+      <div class="kg-legend-group">
+        <h4>自然资源</h4>
+        <div class="kg-legend-item" data-type="lake-clay"><span class="kg-legend-dot" style="background:#c4a87c"></span> 湖泥</div>
+      </div>
+      <div class="kg-legend-group">
+        <h4>遗址与发现</h4>
+        <div class="kg-legend-item" data-type="kiln"><span class="kg-legend-dot" style="background:#e07050"></span> 古窑址</div>
+        <div class="kg-legend-item" data-type="shard"><span class="kg-legend-dot" style="background:#d4956b"></span> 出土残片</div>
+      </div>
+      <div class="kg-legend-group">
+        <h4>器物与工艺</h4>
+        <div class="kg-legend-item" data-type="vessel"><span class="kg-legend-dot" style="background:#5aad89"></span> 典型器物</div>
+        <div class="kg-legend-item" data-type="process"><span class="kg-legend-dot" style="background:#f0c060"></span> 工序步骤</div>
+        <div class="kg-legend-item" data-type="pattern"><span class="kg-legend-dot" style="background:#c97bbf"></span> 纹样</div>
+      </div>
+      <div class="kg-legend-group">
+        <h4>人物与文创</h4>
+        <div class="kg-legend-item" data-type="person"><span class="kg-legend-dot" style="background:#6b8ec9"></span> 传承人</div>
+        <div class="kg-legend-item" data-type="cc"><span class="kg-legend-dot" style="background:#e8a840"></span> 文创产品</div>
+      </div>
+      <p style="font-size:0.7rem;color:var(--text-muted);margin-top:1rem;">💡 拖拽节点 · 滚轮缩放 · 点击探索</p>
+    </div>
+
+    <!-- Graph Canvas -->
+    <div class="kg-canvas-wrap" id="kgCanvas">
+      <div class="kg-controls">
+        <button onclick="zoomGraph(1.3)" title="放大">＋</button>
+        <button onclick="zoomGraph(0.7)" title="缩小">－</button>
+        <button onclick="resetGraph()" title="重置">⟳</button>
+      </div>
+      <div class="graph-tooltip" id="graphTooltip"></div>
+    </div>
+
+    <!-- Detail Panel -->
+    <div class="kg-detail-panel empty" id="kgPanel">
+      <div>
+        <div style="font-size:3rem;margin-bottom:1rem;">👆</div>
+        <p>点击图谱中的任意节点<br>查看详细信息</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Module 3: 时光轴 · 窑火千年 ===== -->
+<section class="section timeline-section" id="timeline">
+  <div class="section-header">
+    <span class="section-tag">时光轴</span>
+    <h2>窑火千年 · 从晚唐到当代</h2>
+    <p>沿着时间脉络，追溯东钱湖秘色瓷从兴起到鼎盛、从沉寂到复兴的千年历程</p>
+  </div>
+  <div class="timeline-wrap">
+    <div class="timeline-line"></div>
+    <div class="timeline-scroll" id="timelineScroll">
+      <!-- JS populated -->
+    </div>
+  </div>
+</section>
+
+<!-- ===== Module 4: 湖泥独韵 · 工艺解密 ===== -->
+<section class="section craft-section" id="craft">
+  <div class="section-header">
+    <span class="section-tag">专题长页</span>
+    <h2>湖泥独韵 · 工艺解密</h2>
+    <p>从"采湖泥"到"封窑开片"，每一步都蕴含千年智慧；东钱湖泥的独特成分，成就了秘色瓷不可复制的神韵</p>
+  </div>
+
+  <div class="craft-steps" id="craftSteps">
+    <!-- JS populated -->
+  </div>
+
+  <!-- 湖泥实验室 -->
+  <div class="clay-lab">
+    <h3>🔬 湖泥实验室</h3>
+    <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">东钱湖泥含微量贝壳屑、铁量偏高，形成秘色青绿中微泛黄的独特韵味</p>
+    <div class="clay-lab-grid">
+      <div class="clay-compare">
+        <h4>普通瓷土试片</h4>
+        <div class="clay-swatch normal">普通瓷土</div>
+        <p style="font-size:0.85rem;color:var(--text-secondary);">Fe₂O₃含量约 1.0%<br>釉色偏灰白，缺乏层次</p>
+      </div>
+      <div class="clay-compare">
+        <h4>东钱湖泥试片</h4>
+        <div class="clay-swatch dongqian">东钱湖泥</div>
+        <p style="font-size:0.85rem;color:var(--text-secondary);">Fe₂O₃含量约 2.0%<br>青绿中微泛黄，温润如玉</p>
+      </div>
+    </div>
+    <div style="max-width:700px;margin:2rem auto 0;padding:1.5rem;background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border-color);">
+      <h4 style="color:var(--celadon-700);margin-bottom:0.75rem;">📊 东钱湖瓷土成分分析简表</h4>
+      <table style="width:100%;font-size:0.85rem;border-collapse:collapse;">
+        <thead>
+          <tr style="border-bottom:2px solid var(--celadon-200);">
+            <th style="padding:0.5rem;text-align:left;">成分</th>
+            <th style="padding:0.5rem;text-align:right;">SiO₂</th>
+            <th style="padding:0.5rem;text-align:right;">Al₂O₃</th>
+            <th style="padding:0.5rem;text-align:right;">Fe₂O₃</th>
+            <th style="padding:0.5rem;text-align:right;">TiO₂</th>
+            <th style="padding:0.5rem;text-align:right;">CaO</th>
+            <th style="padding:0.5rem;text-align:right;">K₂O</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border-color);">
+            <td style="padding:0.5rem;font-weight:500;">含量范围(%)</td>
+            <td style="padding:0.5rem;text-align:right;">75-81</td>
+            <td style="padding:0.5rem;text-align:right;">14-19</td>
+            <td style="padding:0.5rem;text-align:right;color:var(--celadon-600);font-weight:600;">0.8-2.4</td>
+            <td style="padding:0.5rem;text-align:right;">0.5-0.9</td>
+            <td style="padding:0.5rem;text-align:right;">0.3-1.7</td>
+            <td style="padding:0.5rem;text-align:right;">2.0-3.2</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.75rem;color:var(--text-muted);margin-top:0.75rem;">* 数据参考宁波东钱湖区域越窑青瓷科技考古研究，实际各窑址略有差异</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Module 5: 残片与新作 · 古今对话 ===== -->
+<section class="section compare-section" id="compare">
+  <div class="section-header">
+    <span class="section-tag">专题对比页</span>
+    <h2>残片与新作 · 古今对话</h2>
+    <p>将出土标本与传承人新作拖入对比区，系统自动放大、可叠加透明度对比，探索跨越千年的匠心延续</p>
+  </div>
+
+  <div class="compare-layout">
+    <!-- Left: Shard Gallery -->
+    <div class="compare-column" id="shardGallery">
+      <h3>🏛️ 残片馆 · 出土标本</h3>
+      <div class="compare-filters">
+        <button class="compare-filter active" data-filter="all">全部</button>
+        <button class="compare-filter" data-filter="wudai">五代</button>
+        <button class="compare-filter" data-filter="beisong">北宋</button>
+        <button class="compare-filter" data-filter="bowl">碗类</button>
+        <button class="compare-filter" data-filter="vase">瓶壶类</button>
+      </div>
+      <div class="compare-items" id="shardItems">
+        <!-- JS populated -->
+      </div>
+    </div>
+
+    <!-- Center: Compare Zone -->
+    <div class="compare-zone" id="compareZone">
+      <p style="color:var(--text-muted);font-size:0.9rem;">拖拽残片与新作至此</p>
+      <div class="compare-zone-pair">
+        <div class="compare-slot" id="slotLeft" data-slot="left">📜<br>残片</div>
+        <div style="font-size:1.5rem;color:var(--celadon-400);">⇄</div>
+        <div class="compare-slot" id="slotRight" data-slot="right">✨<br>新作</div>
+      </div>
+      <div class="compare-overlay">
+        <label style="font-size:0.8rem;color:var(--text-secondary);">透明度对比</label>
+        <input type="range" min="0" max="100" value="50" id="overlayOpacity">
+        <span style="font-size:0.75rem;color:var(--text-muted);" id="opacityVal">50%</span>
+      </div>
+      <div id="compareNotes" style="margin-top:1rem;font-size:0.8rem;color:var(--text-secondary);text-align:left;"></div>
+    </div>
+
+    <!-- Right: Modern Works -->
+    <div class="compare-column" id="modernGallery">
+      <h3>✨ 传承人新作馆</h3>
+      <div class="compare-filters">
+        <button class="compare-filter active" data-filter="all">全部</button>
+        <button class="compare-filter" data-filter="tea">茶具</button>
+        <button class="compare-filter" data-filter="incense">香器</button>
+        <button class="compare-filter" data-filter="vase-modern">花器</button>
+      </div>
+      <div class="compare-items" id="modernItems">
+        <!-- JS populated -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Module 6: 范蠡财智 · 文创廊 ===== -->
+<section class="section cc-section" id="cc-gallery">
+  <div class="section-header">
+    <span class="section-tag">文创廊</span>
+    <h2>范蠡财智 · 文创产品</h2>
+    <p>以范蠡（陶朱公）传说为叙事主线，传统纹样与现代设计碰撞，千年湖底泥孕育全新生命</p>
+  </div>
+
+  <div class="cc-narrative">
+    <h3>📖 陶朱公与东钱湖</h3>
+    <p>春秋末期，越国大夫范蠡助勾践复国后，<strong>携西施泛舟五湖，最终隐居于东钱湖伏牛山</strong>（今陶公山）。范蠡自称"陶朱公"，三致千金而三散其财，被后世尊为"商圣"。当地传说范蠡将经商所获钱币贮于山中水潭（"一本潭"）与湖湾（"万金湖"），因湖在宁波城东，故称"东钱湖"。<br><strong>今天，千年湖底泥制成的秘色瓷文创，延续着陶朱公"聚财济世"的精神。</strong></p>
+  </div>
+
+  <div class="cc-filters">
+    <button class="cc-filter-btn active" data-filter="all">全部</button>
+    <button class="cc-filter-btn" data-filter="ceramic">陶瓷器物</button>
+    <button class="cc-filter-btn" data-filter="accessory">饰品配件</button>
+    <button class="cc-filter-btn" data-filter="gift">礼盒套装</button>
+  </div>
+
+  <div class="cc-grid" id="ccGrid">
+    <!-- JS populated -->
+  </div>
+</section>
+
+<!-- ===== Module 7: 传承人星谱 ===== -->
+<section class="section inheritor-section" id="inheritors">
+  <div class="section-header">
+    <span class="section-tag">人物星谱</span>
+    <h2>传承人星谱</h2>
+    <p>以人物关系图谱展示师承脉络，"人—泥—器—道"的联结，每一位传承人都有独特的故事</p>
+  </div>
+
+  <div class="inheritor-graph-wrap">
+    <div class="inheritor-graph" id="inheritorGraph"></div>
+  </div>
+
+  <div class="inheritor-cards" id="inheritorCards">
+    <!-- JS populated -->
+  </div>
+</section>
+
+<!-- ===== Module 8: 知识库与检索 ===== -->
+<section class="section kb-section" id="knowledge-base">
+  <div class="section-header">
+    <span class="section-tag">知识库</span>
+    <h2>知识库与检索</h2>
+    <p>全局搜索，按分类浏览；每一实体拥有独立知识卡片，支持分享与文献下载</p>
+  </div>
+
+  <div class="search-bar-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="kbSearch" placeholder="搜索窑址、人物、器物、工艺、纹样……">
+  </div>
+
+  <div class="kb-categories">
+    <button class="kb-cat-btn active" data-cat="all">全部</button>
+    <button class="kb-cat-btn" data-cat="窑址">🏛️ 窑址</button>
+    <button class="kb-cat-btn" data-cat="人物">👤 人物</button>
+    <button class="kb-cat-btn" data-cat="器物">🏺 器物</button>
+    <button class="kb-cat-btn" data-cat="工艺">🔥 工艺</button>
+    <button class="kb-cat-btn" data-cat="纹样">🎨 纹样</button>
+    <button class="kb-cat-btn" data-cat="文创">💰 文创</button>
+  </div>
+
+  <div class="kb-results" id="kbResults">
+    <!-- JS populated -->
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <p>东钱湖秘色瓷知识图谱 · 湖泥与焰火的千年秘语</p>
+  <p style="font-size:0.75rem;color:rgba(255,255,255,0.4);">本网站内容基于公开考古资料、学术研究与新闻报道整理，仅供文化传播与学术交流使用</p>
+  <p style="font-size:0.7rem;color:rgba(255,255,255,0.3);margin-top:0.5rem;">
+    参考资料：宁波市文物考古研究所 · 浙江省文物考古研究所 · 《青瓷千年映钱湖》· 人民论坛网 · 中国新闻网 · 宁波日报 · 鄞州日报
+  </p>
+</footer>
+
+<!-- ===== Modal ===== -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-content" id="modalContent">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ===== Scripts ===== -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/image-map.js"></script>
+<script src="js/knowledge-graph.js"></script>
+<script src="js/timeline.js"></script>
+<script src="js/compare.js"></script>
+<script src="js/inheritors.js"></script>
+<script src="js/search.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
