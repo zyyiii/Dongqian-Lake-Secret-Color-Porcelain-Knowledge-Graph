@@ -98,8 +98,8 @@ npx serve .
 
 ### 在线查看
 
-已部署至 GitHub Pages：
-👉 **[zyyiii.github.io/Dongqian-Lake-Secret-Color-Porcelain-Knowledge-Graph](https://zyyiii.github.io/Dongqian-Lake-Secret-Color-Porcelain-Knowledge-Graph/)**
+已部署至 Netlify：
+👉 **https://dongqianlake.netlify.app/**
 
 ---
 
