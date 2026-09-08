@@ -55,10 +55,12 @@
   --radius-lg: 20px;
   --radius-xl: 28px;
 
-  /* 过渡 */
-  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  /* 过渡：使用强缓动曲线（参考 emil-design-eng 规范，弱缓动会让 UI 显得迟钝） */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --transition-fast: 0.2s var(--ease-out);
+  --transition-base: 0.35s var(--ease-out);
+  --transition-slow: 0.6s var(--ease-out);
 }
 
 /* ===== Reset & Base ===== */
@@ -413,13 +415,24 @@ h4 { font-size: 1.2rem; font-weight: 500; }
   flex-shrink: 0;
 }
 
+/* 图例过滤：被隐藏的类型置灰 */
+.kg-legend-item.dimmed {
+  opacity: 0.35;
+  text-decoration: line-through;
+}
+
 .kg-canvas-wrap {
-  background: var(--bg-card);
+  background:
+    radial-gradient(ellipse at 50% 38%, rgba(90, 173, 137, 0.09), transparent 65%),
+    repeating-linear-gradient(0deg, rgba(120, 140, 130, 0.05) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(90deg, rgba(120, 140, 130, 0.05) 0 1px, transparent 1px 34px),
+    var(--bg-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
   border: 1px solid var(--border-color);
+  min-height: 520px;
 }
 
 .kg-canvas-wrap svg {
@@ -1450,9 +1463,22 @@ h4 { font-size: 1.2rem; font-weight: 500; }
 }
 
 /* ===== Node/Edge styles for D3 graphs ===== */
-.kg-node circle {
-  stroke-width: 2px;
-  transition: all 0.3s ease;
+.kg-node {
+  cursor: pointer;
+}
+
+.kg-node-halo {
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.kg-node-main {
+  transition: all 0.25s ease;
+}
+
+.kg-node-pulse {
+  pointer-events: none;
+  transform-origin: center;
 }
 
 .kg-node text {
@@ -1462,14 +1488,30 @@ h4 { font-size: 1.2rem; font-weight: 500; }
   text-shadow: 0 1px 3px rgba(255,255,255,0.8);
 }
 
-.kg-node:hover circle {
+/* 悬停：主圆放大 + 发光 */
+.kg-node:hover .kg-node-main {
   stroke-width: 3px;
-  filter: drop-shadow(0 2px 8px rgba(45, 122, 91, 0.4));
+  filter: drop-shadow(0 2px 10px rgba(45, 122, 91, 0.5));
+}
+
+/* 选中：光晕增强 + 脉冲扩散环 */
+.kg-node.selected .kg-node-halo {
+  opacity: 0.3;
+}
+
+.kg-node.selected .kg-node-pulse {
+  opacity: 1;
+  animation: kg-pulse-ring 1.8s ease-out infinite;
+}
+
+@keyframes kg-pulse-ring {
+  0%   { transform: scale(0.85); opacity: 0.9; }
+  100% { transform: scale(2); opacity: 0; }
 }
 
 .kg-edge {
   stroke-opacity: 0.35;
-  transition: stroke-opacity 0.3s ease;
+  transition: stroke-opacity 0.3s ease, opacity 0.3s ease;
 }
 
 .kg-edge.highlight {
@@ -1479,6 +1521,17 @@ h4 { font-size: 1.2rem; font-weight: 500; }
 
 .kg-edge.dimmed {
   stroke-opacity: 0.08;
+}
+
+/* 路径高亮：虚线流动动画 */
+.kg-edge.path-active {
+  stroke-opacity: 0.85;
+  stroke-dasharray: 7 5;
+  animation: kg-edge-flow 0.9s linear infinite;
+}
+
+@keyframes kg-edge-flow {
+  to { stroke-dashoffset: -12; }
 }
 
 /* ===== Responsive ===== */
@@ -1549,7 +1602,7 @@ h4 { font-size: 1.2rem; font-weight: 500; }
 .fade-in {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
 }
 
 .fade-in.visible {
@@ -1603,6 +1656,17 @@ h4 { font-size: 1.2rem; font-weight: 500; }
   transition: opacity 0.2s ease;
   z-index: 100;
   max-width: 220px;
+}
+
+/* Tooltip 内的类型徽标 */
+.graph-tooltip .tooltip-tag {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.65rem;
+  margin-right: 0.3rem;
+  vertical-align: 1px;
 }
 
 /* Draggable comparison items */
@@ -1977,6 +2041,7 @@ img[loading="lazy"][src] {
 /* ===== 按钮美化 ===== */
 .btn {
   border-radius: 999px;
+  transition: transform 160ms var(--ease-out), background-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out), color 200ms var(--ease-out);
 }
 
 .btn:active { transform: scale(0.97); }
@@ -2019,20 +2084,14 @@ img[loading="lazy"][src] {
   box-shadow: 0 4px 12px rgba(201, 169, 92, 0.4);
 }
 
-/* ===== 卡片悬浮微交互 ===== */
-.craft-step:hover { transform: translateY(-4px); }
-
-.craft-step-num {
-  background: linear-gradient(180deg, var(--celadon-200), var(--celadon-100));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+/* ===== 卡片悬浮微交互（触屏设备不启用位移，避免误触动画） ===== */
+@media (hover: hover) and (pointer: fine) {
+  .craft-step:hover { transform: translateY(-4px); }
+  .kb-card:hover { transform: translateY(-3px); }
+  .compare-item:hover { transform: translateY(-2px); }
+  .timeline-item:hover::before { opacity: 1; }
+  .cc-card:hover .cc-card-visual img { transform: scale(1.06); }
 }
-
-.kb-card { transition: var(--transition-base); }
-.kb-card:hover { transform: translateY(-3px); }
-
-.compare-item:hover { transform: translateY(-2px); }
 
 /* 时光轴年份渐变字 + 顶部金色饰带 */
 .timeline-year {
@@ -2101,12 +2160,139 @@ img[loading="lazy"][src] {
   color: rgba(255, 255, 255, 0.88);
 }
 
-/* ===== 减少动效偏好 ===== */
+/* ===== 减少动效偏好 =====
+   （apple-design: reduced-motion 保留色彩/透明度，仅移除明显位移与循环动画） */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  /* 关键帧中的位移类能力全部关闭，纯循环装饰动画停用 */
+  .hero-particle,
+  .hero-scroll span,
+  .nav-bamboo,
+  .kg-node-pulse,
+  .kg-edge.path-active {
+    animation: none !important;
+  }
+  .kg-edge.path-active {
+    stroke-dasharray: none;
+  }
   html { scroll-behavior: auto; }
+}
+
+
+/* ===== 导航栏翠竹装饰 ===== */
+.nav {
+  overflow: hidden;
+}
+
+.nav-inner {
+  position: relative;
+}
+
+.nav-bamboo {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: auto;
+  color: var(--celadon-600);
+  opacity: 0.14;
+  pointer-events: none;
+  z-index: 0;
+  transform-origin: 50% 100%;
+  animation: bambooSway 7s ease-in-out infinite alternate;
+}
+
+.nav-bamboo-left {
+  left: 13rem;
+}
+
+.nav-bamboo-right {
+  right: 0.5rem;
+  animation-name: bambooSwayR;
+  animation-delay: -3.5s;
+}
+
+.nav-inner > *:not(.nav-bamboo) {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes bambooSway {
+  from { transform: rotate(-1.6deg); }
+  to { transform: rotate(1.6deg); }
+}
+
+@keyframes bambooSwayR {
+  from { transform: scaleX(-1) rotate(-1.6deg); }
+  to { transform: scaleX(-1) rotate(1.6deg); }
+}
+
+@media (max-width: 1100px) {
+  .nav-bamboo-left { display: none; }
+}
+
+@media (max-width: 900px) {
+  .nav-bamboo-right { display: none; }
+}
+
+/* ===== 知识库卡片可点击查看详情 ===== */
+.kb-card {
+  cursor: pointer;
+  position: relative;
+}
+
+.kb-card::after {
+  content: '查看详情 →';
+  position: absolute;
+  top: 1.15rem;
+  right: 1.25rem;
+  font-size: 0.72rem;
+  color: var(--celadon-400);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: var(--transition-fast);
+  pointer-events: none;
+}
+
+.kb-card:hover::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
+/* ===== 知识图谱可读性优化 ===== */
+.kg-node {
+  cursor: pointer;
+}
+
+/* 节点标签白色光晕衬底，压在连线上也清晰可读 */
+.kg-node-label {
+  paint-order: stroke;
+  stroke: rgba(250, 248, 244, 0.92);
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+}
+
+.kg-edge-label {
+  paint-order: stroke;
+  stroke: rgba(250, 248, 244, 0.9);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+/* ===== 触屏设备禁用位移/缩放悬停效果 =====
+   （emil-design-eng: 触屏点击会误触发 :hover 态，位移动画应仅针对精细指针设备） */
+@media (hover: none), (pointer: coarse) {
+  .hero-card:hover,
+  .hero-card:hover .hero-card-icon,
+  .timeline-item:hover,
+  .craft-step:hover,
+  .kb-card:hover,
+  .compare-item:hover,
+  .cc-card:hover .cc-card-visual img {
+    transform: none !important;
+  }
 }

@@ -1,0 +1,23 @@
+## ===== 临时调试文件 =====
+_check_dom.py
+_preview*.html
+dom.html
+check-kg*.png
+
+## ===== 技能源码（外部依赖，不入库存放） =====
+designskills-main/
+
+## ===== 本地技能安装目录 =====
+.trae/
+
+## ===== 系统 / 编辑器 =====
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+## ===== 环境 / 依赖 =====
+node_modules/
+__pycache__/
+*.pyc

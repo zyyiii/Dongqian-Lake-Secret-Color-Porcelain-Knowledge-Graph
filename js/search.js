@@ -65,7 +65,7 @@ function renderKBResults() {
   }
 
   container.innerHTML = entries.map(e => `
-    <div class="kb-card fade-in">
+    <div class="kb-card fade-in" onclick="openKBDetail('${e.id}')" title="点击查看详情">
       <div class="kb-card-cat">${catIcons[e.cat] || '📄'} ${e.cat}</div>
       <h4>${highlightMatch(e.title)}</h4>
       <p>${highlightMatch(e.desc)}</p>
@@ -95,6 +95,62 @@ function highlightMatch(text) {
 
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// ===== 知识卡片详情弹窗 =====
+// 部分条目关联知识图谱节点图片，丰富详情页视觉
+const KB_IMAGE_REF = {
+  'kb-1': 'kiln-guojiazhi',
+  'kb-2': 'kiln-guotongao',
+  'kb-3': 'kiln-shangshuiao',
+  'kb-4': 'kiln-laohuyan',
+  'kb-5': 'person-wenguoli',
+  'kb-6': 'person-zhaolulu',
+  'kb-7': 'person-wenchangqing',
+  'kb-9': 'vessel-huakouzun',
+  'kb-10': 'shard-fengwen',
+  'kb-11': 'vessel-quezao',
+  'kb-12': 'vessel-dongqianhu',
+  'kb-17': 'pattern-lianhe',
+  'kb-18': 'pattern-duidie',
+  'kb-19': 'pattern-yingwu',
+  'kb-20': 'pattern-ying',
+  'kb-21': 'vessel-dongqianhu',
+};
+
+function openKBDetail(id) {
+  const e = KB_ENTRIES.find(x => x.id === id);
+  if (!e) return;
+
+  const catIcons = {
+    '窑址': '🏛️', '人物': '👤', '器物': '🏺', '工艺': '🔥', '纹样': '🎨', '文创': '💰'
+  };
+
+  const imgRef = KB_IMAGE_REF[id];
+  const imgHtml = imgRef ? `
+    <div style="width:100%;height:240px;border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1.5rem;background:var(--celadon-50);">
+      ${getImageWithFallback(imgRef, catIcons[e.cat] || '📄', 'kg-panel-img')}
+    </div>
+  ` : '';
+
+  document.getElementById('modalBody').innerHTML = `
+    ${imgHtml}
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;">
+      <span style="font-size:0.75rem;padding:0.3rem 1rem;border-radius:16px;background:var(--celadon-50);color:var(--celadon-600);">${catIcons[e.cat] || '📄'} ${e.cat}</span>
+      <span style="font-size:0.75rem;padding:0.3rem 1rem;border-radius:16px;background:var(--gold-light);color:var(--lake-clay-dark);">🕐 ${e.year}</span>
+    </div>
+    <h2 style="color:var(--celadon-700);margin-bottom:1rem;">${e.title}</h2>
+    <p style="font-size:1rem;line-height:1.9;color:var(--text-secondary);margin-bottom:1.5rem;">${e.desc}</p>
+    <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.5rem;">
+      ${e.tags.map(t => `<span style="font-size:0.7rem;padding:0.25rem 0.7rem;border-radius:14px;background:var(--celadon-50);color:var(--celadon-600);">${t}</span>`).join('')}
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding-top:1rem;border-top:1px solid var(--border-color);">
+      <span style="font-size:0.8rem;color:var(--text-muted);">📚 来源：${e.source}</span>
+      <button class="btn btn-outline" onclick="shareKBCard(event, '${e.id}')">📤 分享此卡片</button>
+    </div>
+  `;
+
+  document.getElementById('modalOverlay').classList.add('open');
 }
 
 function shareKBCard(event, id) {
