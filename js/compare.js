@@ -12,8 +12,8 @@ function initCompare() {
       <div class="compare-item shard-item" draggable="true"
            data-id="${item.id}" data-side="shard"
            data-name="${item.name}" data-era="${item.era}"
-           data-desc="${item.desc}" data-icon="${item.icon}">
-        <div class="compare-item-icon">${getImageWithFallback(item.id, item.icon, 'compare-thumb')}</div>
+           data-desc="${item.desc}">
+        <div class="compare-item-icon">${getImageWithFallback(item.id, item.name, 'compare-thumb', 'shard')}</div>
         <div class="compare-item-name">${item.name}</div>
         <div class="compare-item-meta">${item.era} · ${item.kiln}</div>
       </div>
@@ -27,8 +27,8 @@ function initCompare() {
       <div class="compare-item modern-item" draggable="true"
            data-id="${item.id}" data-side="modern"
            data-name="${item.name}" data-maker="${item.maker}"
-           data-desc="${item.desc}" data-icon="${item.icon}">
-        <div class="compare-item-icon">${getImageWithFallback(item.id, item.icon, 'compare-thumb')}</div>
+           data-desc="${item.desc}">
+        <div class="compare-item-icon">${getImageWithFallback(item.id, item.name, 'compare-thumb', 'cc')}</div>
         <div class="compare-item-name">${item.name}</div>
         <div class="compare-item-meta">${item.maker}</div>
       </div>
@@ -129,7 +129,6 @@ function handleDrop(e) {
     id: draggedItem.dataset.id,
     name: draggedItem.dataset.name,
     desc: draggedItem.dataset.desc,
-    icon: draggedItem.dataset.icon,
     era: draggedItem.dataset.era || '',
     maker: draggedItem.dataset.maker || '',
     side: draggedItem.dataset.side
@@ -137,7 +136,7 @@ function handleDrop(e) {
 
   compareSlots[side] = data;
   targetSlot.classList.add('filled');
-  targetSlot.innerHTML = `<div style="width:100%;height:80%;overflow:hidden;border-radius:8px;">${getImageWithFallback(data.id, data.icon, '')}</div><small>${data.name}</small>`;
+  targetSlot.innerHTML = `<div style="width:100%;height:80%;overflow:hidden;border-radius:8px;">${getImageWithFallback(data.id, data.name, '', data.side === 'left' ? 'shard' : 'cc')}</div><small>${data.name}</small>`;
 
   updateCompareNotes();
 }
@@ -152,14 +151,14 @@ function updateCompareNotes() {
   if (left && right) {
     notesDiv.innerHTML = `
       <div style="background:var(--celadon-50);padding:1rem;border-radius:var(--radius-md);">
-        <h4 style="color:var(--celadon-700);margin-bottom:0.5rem;">📋 对比分析</h4>
-        <p><strong>📜 ${left.name}</strong>（${left.era}）</p>
+        <h4 style="color:var(--celadon-700);margin-bottom:0.5rem;">对比分析</h4>
+        <p><strong>古 · ${left.name}</strong>（${left.era}）</p>
         <p style="font-size:0.8rem;color:var(--text-muted);">${left.desc}</p>
-        <p style="margin-top:0.5rem;"><strong>✨ ${right.name}</strong>（${right.maker}）</p>
+        <p style="margin-top:0.5rem;"><strong>今 · ${right.name}</strong>（${right.maker}）</p>
         <p style="font-size:0.8rem;color:var(--text-muted);">${right.desc}</p>
         <hr style="border-color:var(--border-color);margin:0.75rem 0;">
-        <p style="font-size:0.8rem;color:var(--celadon-600);">💡 调整上方透明度滑块，观察器型吻合度与釉色差异</p>
-        <p style="font-size:0.75rem;color:var(--text-muted);">🔬 考古说明：${left.name}出土于东钱湖窑场，代表了当时的工艺水平。现代复刻在传承基础上融入了当代审美与改良工艺。</p>
+        <p style="font-size:0.8rem;color:var(--celadon-600);">调整上方透明度滑块，观察器型吻合度与釉色差异</p>
+        <p style="font-size:0.75rem;color:var(--text-muted);">考古说明：${left.name}出土于东钱湖窑场，代表了当时的工艺水平。现代复刻在传承基础上融入了当代审美与改良工艺。</p>
       </div>
     `;
   } else if (left || right) {

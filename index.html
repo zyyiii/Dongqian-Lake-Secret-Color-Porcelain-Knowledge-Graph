@@ -12,6 +12,43 @@
 </head>
 <body>
 
+<!-- ===== Inline Icon Sprite ===== -->
+<svg style="display:none;" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="icon-vase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 2h8M9 2l-1 4a6 6 0 0 0 8 0l-1-4M7 10a5 5 0 0 0 2.5 8h5A5 5 0 0 0 17 10"/>
+  </symbol>
+  <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="7"/>
+    <path d="M21 21l-4.35-4.35"/>
+  </symbol>
+  <symbol id="icon-coin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M9 10h6M9 14h6M12 7v10"/>
+  </symbol>
+  <symbol id="icon-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 11V6a2 2 0 0 0-4 0v0"/>
+    <path d="M14 10V4a2 2 0 0 0-4 0v8"/>
+    <path d="M10 20.4a2 2 0 0 1-3.2-1.8V9a2 2 0 0 0-4 0v6"/>
+    <path d="M18 13.8V12a2 2 0 0 0-4 0v2.5"/>
+    <path d="M21 13a5 5 0 0 1-4 8 5 5 0 0 1-3-1"/>
+  </symbol>
+  <symbol id="icon-lab" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 2h4M9 2l-5 13a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3L15 2"/>
+    <path d="M8 10h8M7 15h10"/>
+  </symbol>
+  <symbol id="icon-museum" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M2 9l10-7 10 7M4 10v10M20 10v10M9 21V12h6v9M2 21h20"/>
+  </symbol>
+  <symbol id="icon-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2l1.5 5.5L19 9l-5.5 1.5L12 16l-1.5-5.5L5 9l5.5-1.5L12 2z"/>
+    <path d="M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8L18 14z"/>
+  </symbol>
+  <symbol id="icon-scroll" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 21h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14a2 2 0 0 1-4 0V5"/>
+    <path d="M10 7h8M10 11h8M10 15h5"/>
+  </symbol>
+</svg>
+
 <!-- ===== Navigation ===== -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
@@ -44,7 +81,7 @@
         <path d="M42 32 Q68 26 84 36 Q62 44 42 32 Z"/>
       </g>
     </svg>
-    <a href="#home" class="nav-logo">🫖 东钱湖秘色瓷</a>
+    <a href="#home" class="nav-logo">东钱湖秘色瓷</a>
     <div class="nav-links" id="navLinks">
       <a href="#home" class="active" data-section="home">秘色宇宙</a>
       <a href="#knowledge-graph" data-section="knowledge-graph">知识图谱</a>
@@ -73,17 +110,17 @@
     <div class="hero-ornament"></div>
     <div class="hero-cards">
       <div class="hero-card" onclick="scrollToSection('craft')">
-        <div class="hero-card-icon">🏺</div>
+        <div class="hero-card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-vase"/></svg></div>
         <h3>湖泥独韵</h3>
         <p>解密东钱湖泥的独特成分，探寻"青绿微泛黄"的千年密码</p>
       </div>
       <div class="hero-card" onclick="scrollToSection('compare')">
-        <div class="hero-card-icon">🔍</div>
+        <div class="hero-card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-search"/></svg></div>
         <h3>古今对照</h3>
         <p>出土残片与现代复刻并列对比，感受跨越时空的匠心传承</p>
       </div>
       <div class="hero-card" onclick="scrollToSection('cc-gallery')">
-        <div class="hero-card-icon">💰</div>
+        <div class="hero-card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-coin"/></svg></div>
         <h3>范蠡财智文创</h3>
         <p>千年湖底泥遇见商圣智慧，传统工艺焕发当代新生</p>
       </div>
@@ -106,9 +143,9 @@
   <div class="path-toggle" style="max-width:1400px;margin:0 auto 1rem;padding:0 2rem;">
     <span style="font-size:0.8rem;color:var(--text-muted);line-height:2;">高亮路径：</span>
     <button class="path-toggle-btn active" data-path="all">全部展示</button>
-    <button class="path-toggle-btn" data-path="clay-chain">🏺 湖泥工艺链</button>
-    <button class="path-toggle-btn" data-path="compare-chain">🔍 古今对比链</button>
-    <button class="path-toggle-btn" data-path="cc-chain">💰 文创链</button>
+    <button class="path-toggle-btn" data-path="clay-chain"><span class="path-dot" style="background:#c4a87c"></span>湖泥工艺链</button>
+    <button class="path-toggle-btn" data-path="compare-chain"><span class="path-dot" style="background:#e07050"></span>古今对比链</button>
+    <button class="path-toggle-btn" data-path="cc-chain"><span class="path-dot" style="background:#e8a840"></span>文创链</button>
   </div>
 
   <div class="kg-container">
@@ -135,7 +172,7 @@
         <div class="kg-legend-item" data-type="person"><span class="kg-legend-dot" style="background:#6b8ec9"></span> 传承人</div>
         <div class="kg-legend-item" data-type="cc"><span class="kg-legend-dot" style="background:#e8a840"></span> 文创产品</div>
       </div>
-      <p style="font-size:0.7rem;color:var(--text-muted);margin-top:1rem;">💡 拖拽节点 · 滚轮缩放 · 点击探索 · 点击图例过滤</p>
+      <p class="kg-hint">拖拽节点 · 滚轮缩放 · 点击探索 · 点击图例过滤</p>
     </div>
 
     <!-- Graph Canvas -->
@@ -202,7 +239,7 @@
       </div>
     </div>
     <div style="max-width:700px;margin:2rem auto 0;padding:1.5rem;background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border-color);">
-      <h4 style="color:var(--celadon-700);margin-bottom:0.75rem;">📊 东钱湖瓷土成分分析简表</h4>
+      <h4 style="color:var(--celadon-700);margin-bottom:0.75rem;">东钱湖瓷土成分分析简表</h4>
       <table style="width:100%;font-size:0.85rem;border-collapse:collapse;">
         <thead>
           <tr style="border-bottom:2px solid var(--celadon-200);">
@@ -243,7 +280,7 @@
   <div class="compare-layout">
     <!-- Left: Shard Gallery -->
     <div class="compare-column" id="shardGallery">
-      <h3>🏛️ 残片馆 · 出土标本</h3>
+      <h3><svg class="icon" aria-hidden="true"><use href="#icon-museum"/></svg>残片馆 · 出土标本</h3>
       <div class="compare-filters">
         <button class="compare-filter active" data-filter="all">全部</button>
         <button class="compare-filter" data-filter="wudai">五代</button>
@@ -260,9 +297,9 @@
     <div class="compare-zone" id="compareZone">
       <p style="color:var(--text-muted);font-size:0.9rem;">拖拽残片与新作至此</p>
       <div class="compare-zone-pair">
-        <div class="compare-slot" id="slotLeft" data-slot="left">📜<br>残片</div>
-        <div style="font-size:1.5rem;color:var(--celadon-400);">⇄</div>
-        <div class="compare-slot" id="slotRight" data-slot="right">✨<br>新作</div>
+        <div class="compare-slot" id="slotLeft" data-slot="left"><span class="slot-mark">残</span><span class="slot-label">残片</span></div>
+        <div class="compare-versus">VS</div>
+        <div class="compare-slot" id="slotRight" data-slot="right"><span class="slot-mark">新</span><span class="slot-label">新作</span></div>
       </div>
       <div class="compare-overlay">
         <label style="font-size:0.8rem;color:var(--text-secondary);">透明度对比</label>
@@ -274,7 +311,7 @@
 
     <!-- Right: Modern Works -->
     <div class="compare-column" id="modernGallery">
-      <h3>✨ 传承人新作馆</h3>
+      <h3><svg class="icon" aria-hidden="true"><use href="#icon-sparkle"/></svg>传承人新作馆</h3>
       <div class="compare-filters">
         <button class="compare-filter active" data-filter="all">全部</button>
         <button class="compare-filter" data-filter="tea">茶具</button>
@@ -297,7 +334,7 @@
   </div>
 
   <div class="cc-narrative">
-    <h3>📖 陶朱公与东钱湖</h3>
+    <h3><svg class="icon" aria-hidden="true"><use href="#icon-scroll"/></svg>陶朱公与东钱湖</h3>
     <p>春秋末期，越国大夫范蠡助勾践复国后，<strong>携西施泛舟五湖，最终隐居于东钱湖伏牛山</strong>（今陶公山）。范蠡自称"陶朱公"，三致千金而三散其财，被后世尊为"商圣"。当地传说范蠡将经商所获钱币贮于山中水潭（"一本潭"）与湖湾（"万金湖"），因湖在宁波城东，故称"东钱湖"。<br><strong>今天，千年湖底泥制成的秘色瓷文创，延续着陶朱公"聚财济世"的精神。</strong></p>
   </div>
 
@@ -321,8 +358,36 @@
     <p>以人物关系图谱展示师承脉络，"人—泥—器—道"的联结，每一位传承人都有独特的故事</p>
   </div>
 
-  <div class="inheritor-graph-wrap">
-    <div class="inheritor-graph" id="inheritorGraph"></div>
+  <div class="inheritor-container">
+    <!-- Legend -->
+    <div class="inheritor-legend">
+      <h3>图例</h3>
+      <div class="inheritor-legend-item"><span class="inheritor-legend-dot" style="background:#c9a95c"></span> 先祖/文化根源</div>
+      <div class="inheritor-legend-item"><span class="inheritor-legend-dot" style="background:#6b8ec9"></span> 开创者</div>
+      <div class="inheritor-legend-item"><span class="inheritor-legend-dot" style="background:#e07050"></span> 代表性传承人</div>
+      <div class="inheritor-legend-item"><span class="inheritor-legend-dot" style="background:#5aad89"></span> 新锐传承者</div>
+      <div class="inheritor-legend-item"><span class="inheritor-legend-dot" style="background:#c4a87c"></span> 自然馈赠</div>
+      <div class="inheritor-legend-item"><span class="inheritor-legend-dot" style="background:#e8a840"></span> 文创产品</div>
+      <p class="inh-hint">拖拽节点 · 滚轮缩放 · 点击探索</p>
+    </div>
+
+    <!-- Graph Canvas -->
+    <div class="inheritor-graph-wrap">
+      <div class="inheritor-graph" id="inheritorGraph"></div>
+      <div class="inh-controls">
+        <button onclick="zoomInheritorGraph(1.3)" title="放大">＋</button>
+        <button onclick="zoomInheritorGraph(0.7)" title="缩小">－</button>
+        <button onclick="resetInheritorGraph()" title="重置">⟳</button>
+      </div>
+    </div>
+
+    <!-- Detail Panel -->
+    <div class="inheritor-detail-panel empty" id="inheritorPanel">
+      <div>
+        <div style="font-size:3rem;margin-bottom:1rem;">👆</div>
+        <p>点击星谱中的任意节点<br>查看人物与关联故事</p>
+      </div>
+    </div>
   </div>
 
   <div class="inheritor-cards" id="inheritorCards">
@@ -339,18 +404,18 @@
   </div>
 
   <div class="search-bar-wrap">
-    <span class="search-icon">🔍</span>
+    <svg class="search-icon" aria-hidden="true"><use href="#icon-search"/></svg>
     <input type="text" class="search-input" id="kbSearch" placeholder="搜索窑址、人物、器物、工艺、纹样……">
   </div>
 
   <div class="kb-categories">
     <button class="kb-cat-btn active" data-cat="all">全部</button>
-    <button class="kb-cat-btn" data-cat="窑址">🏛️ 窑址</button>
-    <button class="kb-cat-btn" data-cat="人物">👤 人物</button>
-    <button class="kb-cat-btn" data-cat="器物">🏺 器物</button>
-    <button class="kb-cat-btn" data-cat="工艺">🔥 工艺</button>
-    <button class="kb-cat-btn" data-cat="纹样">🎨 纹样</button>
-    <button class="kb-cat-btn" data-cat="文创">💰 文创</button>
+    <button class="kb-cat-btn" data-cat="窑址"><span class="cat-dot" style="background:#e07050"></span>窑址</button>
+    <button class="kb-cat-btn" data-cat="人物"><span class="cat-dot" style="background:#6b8ec9"></span>人物</button>
+    <button class="kb-cat-btn" data-cat="器物"><span class="cat-dot" style="background:#5aad89"></span>器物</button>
+    <button class="kb-cat-btn" data-cat="工艺"><span class="cat-dot" style="background:#f0c060"></span>工艺</button>
+    <button class="kb-cat-btn" data-cat="纹样"><span class="cat-dot" style="background:#c97bbf"></span>纹样</button>
+    <button class="kb-cat-btn" data-cat="文创"><span class="cat-dot" style="background:#e8a840"></span>文创</button>
   </div>
 
   <div class="kb-results" id="kbResults">

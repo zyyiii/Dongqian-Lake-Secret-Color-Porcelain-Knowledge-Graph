@@ -31,13 +31,13 @@ function openTimelineDetail(index) {
 
   document.getElementById('modalBody').innerHTML = `
     <div style="text-align:center;margin-bottom:1.5rem;">
-      <div style="width:200px;height:200px;margin:0 auto;border-radius:12px;overflow:hidden;">${getImageWithFallback(TL_IDS[index], item.icon, '')}</div>
+      <div style="width:200px;height:200px;margin:0 auto;border-radius:12px;overflow:hidden;">${getImageWithFallback(TL_IDS[index], item.title, '', 'kiln')}</div>
       <h2 style="color:var(--celadon-700);margin-top:0.5rem;">${item.title}</h2>
       <p style="font-size:1.2rem;color:var(--celadon-500);">${item.year} · ${item.era}</p>
     </div>
     <p style="font-size:1rem;line-height:1.8;color:var(--text-secondary);">${item.desc}</p>
     <div style="margin-top:1.5rem;text-align:center;">
-      <button class="btn btn-primary" onclick="closeModal();scrollToSection('knowledge-graph');">🔍 在知识图谱中探索</button>
+      <button class="btn btn-primary" onclick="closeModal();scrollToSection('knowledge-graph');">在知识图谱中探索</button>
     </div>
   `;
 

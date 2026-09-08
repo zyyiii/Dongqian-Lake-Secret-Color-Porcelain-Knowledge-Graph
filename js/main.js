@@ -89,13 +89,13 @@ function initCraftSteps() {
   container.innerHTML = CRAFT_STEPS.map((step, i) => `
     <div class="craft-step fade-in" data-step="${step.num}" onclick="toggleCraftStep(this)" style="animation-delay:${i * 0.1}s">
       <div class="craft-step-num">${String(step.num).padStart(2, '0')}</div>
-      <div class="craft-step-icon">${getImageWithFallback('craft-' + step.num, step.icon, 'craft-step-img')}</div>
+      <div class="craft-step-icon">${getImageWithFallback('craft-' + step.num, step.title, 'craft-step-img', 'process')}</div>
       <h3>${step.title}</h3>
       <p>${step.desc}</p>
-      ${step.clay ? `<span class="clay-badge">🪨 ${step.clay}</span>` : ''}
+      ${step.clay ? `<span class="clay-badge">${step.clay}</span>` : ''}
       <div class="craft-expand">
         <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">${step.detail}</p>
-        ${step.clay ? `<p style="font-size:0.8rem;color:var(--lake-clay-dark);margin-top:0.75rem;padding:0.5rem;background:var(--lake-clay-light);border-radius:var(--radius-sm);">🪨 ${step.clay}</p>` : ''}
+        ${step.clay ? `<p style="font-size:0.8rem;color:var(--lake-clay-dark);margin-top:0.75rem;padding:0.5rem;background:var(--lake-clay-light);border-radius:var(--radius-sm);">${step.clay}</p>` : ''}
       </div>
     </div>
   `).join('');
@@ -132,13 +132,13 @@ function renderCCProducts(filter) {
 
   container.innerHTML = products.map(p => `
     <div class="cc-card fade-in" onclick="openCCDetail('${p.id}')">
-      <div class="cc-card-visual">${getImageWithFallback(p.id, p.icon, 'cc-card-img')}</div>
+      <div class="cc-card-visual">${getImageWithFallback(p.id, p.name, 'cc-card-img', 'cc')}</div>
       <div class="cc-card-body">
         <h4>${p.name}</h4>
         <p>${p.desc}</p>
         <div class="cc-design-decode">
-          <span>📜 来源：${p.source}</span>
-          <span>✨ ${p.design}</span>
+          <span>来源：${p.source}</span>
+          <span>${p.design}</span>
         </div>
         <div style="margin-top:0.75rem;">
           <span style="font-size:0.7rem;padding:0.2rem 0.6rem;border-radius:10px;background:var(--gold-light);color:var(--gold);">${p.meaning}</span>
@@ -160,18 +160,18 @@ function openCCDetail(id) {
 
   document.getElementById('modalBody').innerHTML = `
     <div style="text-align:center;margin-bottom:1.5rem;">
-      <div style="width:240px;height:240px;margin:0 auto;border-radius:12px;overflow:hidden;">${getImageWithFallback(p.id, p.icon, '')}</div>
+      <div style="width:240px;height:240px;margin:0 auto;border-radius:12px;overflow:hidden;">${getImageWithFallback(p.id, p.name, '', 'cc')}</div>
       <h2 style="color:var(--celadon-700);margin-top:0.5rem;">${p.name}</h2>
       <span style="display:inline-block;padding:0.3rem 1rem;border-radius:16px;background:var(--gold-light);color:var(--gold);margin-top:0.5rem;">${p.meaning}</span>
     </div>
     <p style="font-size:1rem;line-height:1.8;color:var(--text-secondary);margin-bottom:1.5rem;">${p.desc}</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
       <div style="background:var(--celadon-50);padding:1.5rem;border-radius:var(--radius-lg);">
-        <h4 style="color:var(--celadon-700);margin-bottom:0.5rem;">📜 传统来源</h4>
+        <h4 style="color:var(--celadon-700);margin-bottom:0.5rem;">传统来源</h4>
         <p style="font-size:0.9rem;color:var(--text-secondary);line-height:1.6;">${p.source}</p>
       </div>
       <div style="background:var(--gold-light);padding:1.5rem;border-radius:var(--radius-lg);">
-        <h4 style="color:var(--lake-clay-dark);margin-bottom:0.5rem;">✨ 现代设计</h4>
+        <h4 style="color:var(--lake-clay-dark);margin-bottom:0.5rem;">现代设计</h4>
         <p style="font-size:0.9rem;color:var(--text-secondary);line-height:1.6;">${p.design}</p>
       </div>
     </div>
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, 200);
 
-  console.log('🏺 东钱湖秘色瓷知识图谱已就绪');
+  console.log('东钱湖秘色瓷知识图谱已就绪');
   console.log('   湖泥与焰火的千年秘语，等待您的探索');
   console.log('   节点数：' + KG_NODES.length + ' | 关系数：' + KG_EDGES.length + ' | 知识条目：' + KB_ENTRIES.length);
 });

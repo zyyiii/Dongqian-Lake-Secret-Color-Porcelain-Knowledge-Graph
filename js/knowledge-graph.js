@@ -193,27 +193,27 @@ function selectNode(d) {
 
   let actionsHtml = '';
   if (d.type === 'shard') {
-    actionsHtml += `<button class="btn btn-outline" onclick="scrollToSection('compare')">🔍 古今对比</button>`;
+    actionsHtml += `<button class="btn btn-outline" onclick="scrollToSection('compare')">古今对比</button>`;
   }
   if (d.type === 'vessel' && d.id === 'vessel-dongqianhu') {
-    actionsHtml += `<button class="btn btn-outline" onclick="scrollToSection('compare')">🔍 古今对比</button>`;
+    actionsHtml += `<button class="btn btn-outline" onclick="scrollToSection('compare')">古今对比</button>`;
   }
   if (d.type === 'pattern') {
-    actionsHtml += `<button class="btn btn-outline" onclick="scrollToSection('cc-gallery')">🎨 查看应用</button>`;
+    actionsHtml += `<button class="btn btn-outline" onclick="scrollToSection('cc-gallery')">查看应用</button>`;
   }
   if (d.type === 'person') {
-    actionsHtml += `<button class="btn btn-outline" onclick="scrollToSection('inheritors')">👤 传承人星谱</button>`;
+    actionsHtml += `<button class="btn btn-outline" onclick="scrollToSection('inheritors')">传承人星谱</button>`;
   }
   if (d.type === 'cc') {
-    actionsHtml += `<button class="btn btn-gold" onclick="scrollToSection('cc-gallery')">💰 进入文创廊</button>`;
+    actionsHtml += `<button class="btn btn-gold" onclick="scrollToSection('cc-gallery')">进入文创廊</button>`;
   }
 
   panel.innerHTML = `
-    <div class="kg-panel-image">${getImageWithFallback(d.id, d.image, 'kg-panel-img')}</div>
+    <div class="kg-panel-image">${getImageWithFallback(d.id, d.label, 'kg-panel-img', d.type)}</div>
     <div class="kg-panel-tag">${d.group || d.type}</div>
     <h3 class="kg-panel-title">${d.label}</h3>
     <p class="kg-panel-desc">${d.detail || d.desc}</p>
-    ${d.era ? `<p style="font-size:0.8rem;color:var(--text-muted);">📅 ${d.era}${d.kiln ? ' · ' + d.kiln : ''}${d.role ? ' · ' + d.role : ''}</p>` : ''}
+    ${d.era ? `<p style="font-size:0.8rem;color:var(--text-muted);">${d.era}${d.kiln ? ' · ' + d.kiln : ''}${d.role ? ' · ' + d.role : ''}</p>` : ''}
     <div class="kg-panel-actions">${actionsHtml}</div>
   `;
 
@@ -253,12 +253,15 @@ function highlightConnections(nodeId) {
   });
 
   data.link
-    .attr('stroke-opacity', d => connectedEdges.has(d) ? 0.8 : 0.08)
-    .attr('stroke-width', d => connectedEdges.has(d) ? 2.5 : 1);
+    .attr('stroke-opacity', d => connectedEdges.has(d) ? 1 : 0.06)
+    .attr('stroke-width', d => connectedEdges.has(d) ? 3 : 0.8);
+
+  data.edgeLabels
+    .attr('opacity', d => connectedEdges.has(d) ? 1 : 0.12);
 
   data.node
-    .select('circle')
-    .attr('opacity', d => connectedNodes.has(d.id) ? 1 : 0.3);
+    .classed('selected', d => d.id === nodeId)
+    .attr('opacity', d => connectedNodes.has(d.id) ? 1 : 0.12);
 }
 
 function resetHighlights() {
@@ -269,8 +272,11 @@ function resetHighlights() {
     .attr('stroke-opacity', 0.35)
     .attr('stroke-width', 1.5);
 
+  data.edgeLabels
+    .attr('opacity', 1);
+
   data.node
-    .select('circle')
+    .classed('selected', false)
     .attr('opacity', 1);
 }
 

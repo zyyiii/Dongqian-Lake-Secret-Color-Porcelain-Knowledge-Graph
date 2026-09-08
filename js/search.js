@@ -49,14 +49,17 @@ function renderKBResults() {
     );
   }
 
-  const catIcons = {
-    '窑址': '🏛️', '人物': '👤', '器物': '🏺', '工艺': '🔥', '纹样': '🎨', '文创': '💰'
+  const catType = {
+    '窑址': 'kiln', '人物': 'person', '器物': 'vessel', '工艺': 'process', '纹样': 'pattern', '文创': 'cc'
+  };
+  const catColor = {
+    '窑址': '#e07050', '人物': '#6b8ec9', '器物': '#5aad89', '工艺': '#f0c060', '纹样': '#c97bbf', '文创': '#e8a840'
   };
 
   if (entries.length === 0) {
     container.innerHTML = `
-      <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">
-        <div style="font-size:3rem;margin-bottom:1rem;">🔍</div>
+      <div class="kb-empty">
+        <svg class="icon-empty" aria-hidden="true"><use href="#icon-search"/></svg>
         <p>未找到匹配的知识条目</p>
         <p style="font-size:0.85rem;">请尝试其他关键词或分类</p>
       </div>
@@ -66,15 +69,15 @@ function renderKBResults() {
 
   container.innerHTML = entries.map(e => `
     <div class="kb-card fade-in" onclick="openKBDetail('${e.id}')" title="点击查看详情">
-      <div class="kb-card-cat">${catIcons[e.cat] || '📄'} ${e.cat}</div>
+      <div class="kb-card-cat"><span class="cat-dot" style="background:${catColor[e.cat] || '#5aad89'}"></span>${e.cat}</div>
       <h4>${highlightMatch(e.title)}</h4>
       <p>${highlightMatch(e.desc)}</p>
       <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.75rem;">
         ${e.tags.map(t => `<span style="font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:10px;background:var(--celadon-50);color:var(--celadon-600);">${highlightMatch(t)}</span>`).join('')}
       </div>
       <div class="kb-card-footer">
-        <span class="kb-card-source">📚 ${e.source} · ${e.year}</span>
-        <span class="kb-card-share" onclick="shareKBCard(event, '${e.id}')" title="分享">📤 分享</span>
+        <span class="kb-card-source">${e.source} · ${e.year}</span>
+        <span class="kb-card-share" onclick="shareKBCard(event, '${e.id}')" title="分享">分享</span>
       </div>
     </div>
   `).join('');
@@ -122,22 +125,18 @@ function openKBDetail(id) {
   const e = KB_ENTRIES.find(x => x.id === id);
   if (!e) return;
 
-  const catIcons = {
-    '窑址': '🏛️', '人物': '👤', '器物': '🏺', '工艺': '🔥', '纹样': '🎨', '文创': '💰'
-  };
-
   const imgRef = KB_IMAGE_REF[id];
   const imgHtml = imgRef ? `
     <div style="width:100%;height:240px;border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1.5rem;background:var(--celadon-50);">
-      ${getImageWithFallback(imgRef, catIcons[e.cat] || '📄', 'kg-panel-img')}
+      ${getImageWithFallback(imgRef, e.title, 'kg-panel-img', catType[e.cat])}
     </div>
   ` : '';
 
   document.getElementById('modalBody').innerHTML = `
     ${imgHtml}
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;">
-      <span style="font-size:0.75rem;padding:0.3rem 1rem;border-radius:16px;background:var(--celadon-50);color:var(--celadon-600);">${catIcons[e.cat] || '📄'} ${e.cat}</span>
-      <span style="font-size:0.75rem;padding:0.3rem 1rem;border-radius:16px;background:var(--gold-light);color:var(--lake-clay-dark);">🕐 ${e.year}</span>
+      <span style="font-size:0.75rem;padding:0.3rem 1rem;border-radius:16px;background:var(--celadon-50);color:var(--celadon-600);"><span class="cat-dot" style="background:${catColor[e.cat] || '#5aad89'}"></span>${e.cat}</span>
+      <span style="font-size:0.75rem;padding:0.3rem 1rem;border-radius:16px;background:var(--gold-light);color:var(--lake-clay-dark);">${e.year}</span>
     </div>
     <h2 style="color:var(--celadon-700);margin-bottom:1rem;">${e.title}</h2>
     <p style="font-size:1rem;line-height:1.9;color:var(--text-secondary);margin-bottom:1.5rem;">${e.desc}</p>
@@ -145,8 +144,8 @@ function openKBDetail(id) {
       ${e.tags.map(t => `<span style="font-size:0.7rem;padding:0.25rem 0.7rem;border-radius:14px;background:var(--celadon-50);color:var(--celadon-600);">${t}</span>`).join('')}
     </div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding-top:1rem;border-top:1px solid var(--border-color);">
-      <span style="font-size:0.8rem;color:var(--text-muted);">📚 来源：${e.source}</span>
-      <button class="btn btn-outline" onclick="shareKBCard(event, '${e.id}')">📤 分享此卡片</button>
+      <span style="font-size:0.8rem;color:var(--text-muted);">来源：${e.source}</span>
+      <button class="btn btn-outline" onclick="shareKBCard(event, '${e.id}')">分享此卡片</button>
     </div>
   `;
 
@@ -162,10 +161,10 @@ function shareKBCard(event, id) {
 
   if (navigator.clipboard) {
     navigator.clipboard.writeText(shareText).then(() => {
-      showToast('✅ 已复制到剪贴板');
+      showToast('已复制到剪贴板');
     });
   } else {
-    showToast('📤 ' + shareText);
+    showToast(shareText);
   }
 }
 

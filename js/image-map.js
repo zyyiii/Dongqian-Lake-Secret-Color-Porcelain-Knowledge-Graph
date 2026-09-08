@@ -123,19 +123,41 @@ const IMAGE_MAP = {
 // - lotus-pattern: 大英博物馆藏明代青花莲纹瓷器, Wikimedia Commons, CC-BY-SA
 
 /**
- * 获取图片 <img> + emoji 回退的完整 HTML
- * 当图片加载成功时显示图片，失败时显示 emoji
+ * 类型对应主题色（用于无图时的占位块）
  */
-function getImageWithFallback(id, emoji, className) {
+function getTypeColor(type) {
+  const map = {
+    'lake-clay': '#c4a87c', 'kiln': '#e07050', 'shard': '#d4956b',
+    'vessel': '#5aad89', 'process': '#f0c060', 'pattern': '#c97bbf',
+    'person': '#6b8ec9', 'cc': '#e8a840'
+  };
+  return map[type] || '#5aad89';
+}
+
+/**
+ * 生成无图时的文字占位（避免使用 emoji）
+ */
+function getTextPlaceholder(text, type) {
+  const char = (text || '秘').replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim().charAt(0) || '秘';
+  const color = getTypeColor(type);
+  return `<span class="text-placeholder" style="background:${color};" title="${text || ''}">${char}</span>`;
+}
+
+/**
+ * 获取图片 <img> + 文字占位回退的完整 HTML
+ * 当图片加载成功时显示图片，失败时显示文字占位（不再使用 emoji）
+ */
+function getImageWithFallback(id, emojiOrText, className, type) {
   const photo = IMAGE_MAP[id];
+  const text = emojiOrText || '秘';
   if (photo) {
     const cls = className || '';
     return `
       <img src="${GALLERY + photo}" alt="" class="${cls}" loading="lazy"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <span class="img-fallback" style="display:none;align-items:center;justify-content:center;font-size:2rem;">${emoji || '🏺'}</span>`;
+      <span class="img-fallback" style="display:none;align-items:center;justify-content:center;">${getTextPlaceholder(text, type)}</span>`;
   }
-  return `<span style="font-size:2rem;">${emoji || '🏺'}</span>`;
+  return getTextPlaceholder(text, type);
 }
 
 /**
