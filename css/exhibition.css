@@ -1,0 +1,115 @@
+/* Catalogue cover and chapter typography. */
+:root {
+  --archive-paper: #f5f2e9;
+  --archive-ink: #203d36;
+  --archive-muted: #52695f;
+  --archive-rule: #c4c9b9;
+  --archive-serif: "Noto Serif SC", "Songti SC", SimSun, serif;
+}
+.exhibition {
+  background: radial-gradient(ellipse at 87% 30%, #dce6d7, transparent 53%), var(--archive-paper);
+  color: var(--archive-ink);
+  padding: calc(var(--nav-height) + 1.5rem) clamp(1.15rem, 5vw, 5rem) 2rem;
+}
+.exhibition-inner { max-width: 74rem; margin: auto; }
+.exhibition-folio, .exhibition-kicker, .plate-case small, .exhibition-index small {
+  font: 600 .73rem/1.5 system-ui, sans-serif;
+  letter-spacing: .15em;
+}
+.exhibition-folio {
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  padding-bottom: .75rem; border-bottom: 1px solid var(--archive-rule); color: var(--archive-muted);
+}
+.exhibition-spread {
+  display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+  gap: clamp(2rem, 8vw, 8rem); padding: clamp(2rem, 4vw, 4rem) 0;
+}
+.exhibition-kicker { display: flex; align-items: center; gap: .8rem; color: var(--archive-muted); }
+.exhibition-kicker b {
+  font: 500 1rem/1 var(--archive-serif); padding: .28em; color: #944431; border: 1px solid; border-radius: 3px;
+}
+.exhibition h1 {
+  font: 600 clamp(3.7rem, 6.9vw, 6.5rem)/1.09 var(--archive-serif); color: var(--archive-ink);
+  letter-spacing: .035em; margin: .18em 0;
+}
+.exhibition h1 em { font-style: normal; color: #476958; }
+.exhibition-deck { font: 600 clamp(1.1rem, 1.8vw, 1.55rem)/1.6 var(--archive-serif); letter-spacing: .07em; }
+.exhibition-intro { max-width: 27em; color: var(--archive-muted); line-height: 1.9; margin-top: .7rem; text-wrap: pretty; }
+.exhibition-actions { display: flex; align-items: center; flex-wrap: wrap; gap: .6rem 1.4rem; margin-top: 1.6rem; }
+.exhibition-actions a { display: inline-flex; align-items: center; min-height: 44px; color: var(--archive-ink); font-size: .93rem; }
+.exhibition-actions a:first-child { background: var(--archive-ink); color: white; padding: .7rem 1.2rem; gap: 1.2em; border-radius: 4px; }
+.exhibition-actions a:last-child { text-decoration: underline; text-underline-offset: .4em; }
+.plate-case { min-width: 0; position: relative; margin: 0; border: 0; padding: 0; }
+.visually-clipped, .plate-choice { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.plate-pages figure { display: none; margin: 0; }
+#plate1:checked ~ .plate-pages figure:nth-child(1),
+#plate2:checked ~ .plate-pages figure:nth-child(2),
+#plate3:checked ~ .plate-pages figure:nth-child(3) { display: block; }
+.plate-photo {
+  position: relative; height: clamp(17rem, 29vw, 26rem);
+  background: #e2e6dc; padding: 1rem; display: grid; place-items: center;
+  border: 1px solid #b5bfb1; border-radius: 48% 48% 3px 3px / 38% 38% 3px 3px; overflow: hidden;
+}
+.plate-photo::after { content: ""; position: absolute; inset: 5px; border: 1px solid #ffffff85; border-radius: inherit; pointer-events: none; }
+.plate-photo img { display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain; }
+.plate-pages figure:first-child img { mix-blend-mode: multiply; }
+.plate-pages figure:not(:first-child) .plate-photo { border-radius: 3px; background: #323c39; }
+.plate-case figcaption { padding: .9rem 8.8rem 0 0; }
+.plate-case small, .exhibition-index small { display: block; color: var(--archive-muted); }
+.plate-case strong, .exhibition-index strong { display: block; font: 600 clamp(1rem, 1.7vw, 1.4rem)/1.5 var(--archive-serif); margin-top: .2rem; }
+.plate-choices { position: absolute; bottom: 0; right: 0; display: flex; }
+.plate-choices label {
+  display: grid; width: 44px; height: 44px; place-items: center; cursor: pointer;
+  font: .95rem Georgia, serif; border-bottom: 1px solid var(--archive-rule);
+}
+#plate1:checked ~ .plate-choices label:nth-child(1),
+#plate2:checked ~ .plate-choices label:nth-child(2),
+#plate3:checked ~ .plate-choices label:nth-child(3) { background: var(--archive-ink); color: white; }
+#plate1:focus-visible ~ .plate-choices label:nth-child(1),
+#plate2:focus-visible ~ .plate-choices label:nth-child(2),
+#plate3:focus-visible ~ .plate-choices label:nth-child(3),
+.exhibition a:focus-visible { outline: 2px solid #9e492d; outline-offset: 3px; }
+.exhibition-index {
+  display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); border-block: 1px solid var(--archive-rule);
+}
+.exhibition-index a { position: relative; color: var(--archive-ink); padding: 1.05rem 2.8rem 1.05rem 1rem; }
+.exhibition-index a + a { border-left: 1px solid var(--archive-rule); }
+.exhibition-index i { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); font-style: normal; }
+@media (hover: hover) and (pointer: fine) {
+  .exhibition-index a:hover, .plate-choices label:hover { background: #d6e1d3; }
+  .exhibition-actions a:first-child:hover { background: #355a4e; }
+}
+.exhibition a:active, .plate-choices label:active { opacity: .8; }
+.section { counter-increment: archive-chapter; scroll-margin-top: var(--nav-height); }
+.section .section-header {
+  text-align: left; border-top: 1px solid var(--archive-rule); position: relative;
+  padding: 1.25rem clamp(3.6rem, 8vw, 7rem) 0 0;
+}
+.section .section-header::after {
+  content: counter(archive-chapter, decimal-leading-zero); position: absolute; top: .65rem; right: 0;
+  color: #687f72; font: italic clamp(2.5rem, 4.8vw, 4.5rem)/1 Georgia, serif;
+}
+.section .section-header .section-tag {
+  background: none; border: none; padding: 0; backdrop-filter: none; margin-bottom: .65rem;
+  color: #51665c; letter-spacing: .13em;
+}
+.section .section-header h2 { color: var(--archive-ink); font-family: var(--archive-serif); padding: 0; letter-spacing: .015em; }
+.section .section-header h2::before, .section .section-header h2::after { display: none; }
+.section .section-header p { margin: 0; line-height: 1.8; }
+@media (max-width: 760px) {
+  .exhibition-spread { grid-template-columns: 1fr; gap: 1.8rem; }
+  .exhibition h1 br { display: none; }
+  .exhibition h1 { font-size: clamp(2.35rem, 8vw, 3.75rem); margin: .3em 0; }
+  .plate-photo { height: clamp(15rem, 52vw, 21rem); }
+  .exhibition-folio span[lang] { font-size: .59rem; letter-spacing: .06em; text-align: right; }
+  .exhibition-index a { padding: .75rem .5rem; }
+  .exhibition-index i { display: none; }
+}
+@media (max-width: 480px) {
+  .exhibition-index { grid-template-columns: 1fr; }
+  .exhibition-index a { display: flex; align-items: center; gap: 1rem; min-height: 48px; }
+  .exhibition-index a + a { border-left: 0; border-top: 1px solid var(--archive-rule); }
+  .exhibition-index i { display: block; }
+  .exhibition-index strong { margin: 0; }
+  .exhibition-actions { margin-top: 1rem; }
+}

@@ -8,7 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20261126">
+<link rel="stylesheet" href="css/style.css?v=20261126-portrait">
+<link rel="stylesheet" href="css/exhibition.css?v=1">
 </head>
 <body>
 
@@ -113,78 +114,36 @@
 </nav>
 
 <!-- ===== Module 1: Hero / 秘色宇宙总览 ===== -->
-<section class="hero" id="home">
-  <div class="hero-particles" id="heroParticles"></div>
-  <!-- 东钱湖远山层叠水墨画境 -->
-  <svg class="hero-landscape" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-    <defs>
-      <linearGradient id="mtnFar" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#4e9f7f" stop-opacity="0.22"/>
-        <stop offset="100%" stop-color="#0d271b" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="mtnMid" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#2d7a5b" stop-opacity="0.32"/>
-        <stop offset="100%" stop-color="#081c12" stop-opacity="0.1"/>
-      </linearGradient>
-      <linearGradient id="mtnNear" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#153a2b" stop-opacity="0.58"/>
-        <stop offset="100%" stop-color="#081c12" stop-opacity="0.88"/>
-      </linearGradient>
-    </defs>
-    <path d="M0,210 C180,120 340,155 540,185 C740,215 920,105 1140,145 C1280,170 1370,130 1440,150 L1440,320 L0,320 Z" fill="url(#mtnFar)"/>
-    <path d="M0,250 C210,170 420,235 660,190 C880,150 1080,220 1260,185 C1350,168 1400,190 1440,205 L1440,320 L0,320 Z" fill="url(#mtnMid)"/>
-    <path d="M0,285 C260,235 510,285 780,245 C1020,210 1220,265 1440,238 L1440,320 L0,320 Z" fill="url(#mtnNear)"/>
-  </svg>
-
-  <div class="hero-poem hero-poem-left">九秋风露越窑开</div>
-  <div class="hero-poem hero-poem-right">夺得千峰翠色来</div>
-  <div class="hero-seal" aria-hidden="true">秘色</div>
-
-  <div class="hero-content">
-    <p class="hero-subtitle">东钱湖秘色瓷 · 数字文化图谱</p>
-    <h1 class="hero-title">湖泥与焰火的千年秘语</h1>
-    <p class="hero-lead">溯源东汉至当代的越窑秘色文脉，以交互图谱、古今对比与湖泥工艺，解码“类冰似玉、青绿微泛黄”的东方美学传奇。</p>
-    <div class="hero-ornament"></div>
-
-    <div class="hero-cards">
-      <button type="button" class="hero-card" onclick="scrollToSection('craft')">
-        <span class="hero-card-index">壹</span>
-        <div class="hero-card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-vase"/></svg></div>
-        <h3>湖泥独韵</h3>
-        <p>解密东钱湖泥的独特成分，探寻“青绿微泛黄”的千年密码</p>
-        <span class="hero-card-cta">探索工艺 <i>→</i></span>
-      </button>
-      <button type="button" class="hero-card" onclick="scrollToSection('compare')">
-        <span class="hero-card-index">贰</span>
-        <div class="hero-card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-search"/></svg></div>
-        <h3>古今对照</h3>
-        <p>出土残片与现代复刻卷帘叠合，感受跨越时空的匠心传承</p>
-        <span class="hero-card-cta">进入鉴赏 <i>→</i></span>
-      </button>
-      <button type="button" class="hero-card" onclick="scrollToSection('cc-gallery')">
-        <span class="hero-card-index">叁</span>
-        <div class="hero-card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-coin"/></svg></div>
-        <h3>范蠡财智文创</h3>
-        <p>千年湖底泥遇见商圣智慧，传统工艺焕发当代生活新生</p>
-        <span class="hero-card-cta">品鉴文创 <i>→</i></span>
-      </button>
+<section class="exhibition" id="home" aria-labelledby="exhibition-title">
+  <div class="exhibition-inner">
+    <div class="exhibition-folio"><span>东钱湖 · 数字特展</span><span lang="en">DONGQIAN LAKE &nbsp; / &nbsp; CELADON ARCHIVE</span></div>
+    <div class="exhibition-spread">
+      <div class="exhibition-copy">
+        <p class="exhibition-kicker"><b>序</b> 浙江 · 宁波</p>
+        <h1 id="exhibition-title">东钱湖<br><em>秘色瓷</em></h1>
+        <p class="exhibition-deck">湖泥与焰火的千年秘语</p>
+        <p class="exhibition-intro">从一片青瓷上的刀痕出发，循着湖泥、窑火与匠人的线索，读懂东钱湖畔的越窑故事。</p>
+        <div class="exhibition-actions"><a href="#knowledge-graph">进入知识图谱 <span aria-hidden="true">→</span></a><a href="#timeline">沿时间看窑火 ↓</a></div>
+      </div>
+      <fieldset class="plate-case">
+        <legend class="visually-clipped">选择器物图版</legend>
+        <input class="plate-choice" type="radio" id="plate1" name="plate" checked aria-label="图版一：镂雕凤纹香薰盖">
+        <input class="plate-choice" type="radio" id="plate2" name="plate" aria-label="图版二：重莲瓣纹碗">
+        <input class="plate-choice" type="radio" id="plate3" name="plate" aria-label="图版三：花口莲瓣纹尊">
+        <div class="plate-pages">
+          <figure><div class="plate-photo"><img src="picture/fengwenxiangxungai.jpg" width="550" height="608" alt="青釉下刻出的凤羽，羽片之间留有镂空" fetchpriority="high"></div><figcaption><small>PLATE 01 &nbsp; / &nbsp; 纹饰</small><strong>镂雕凤纹香薰盖</strong></figcaption></figure>
+          <figure><div class="plate-photo"><img src="picture/chonglianbanwen.jpg" width="550" height="567" alt="残碗内底可见层层展开的莲瓣纹" loading="lazy"></div><figcaption><small>PLATE 02 &nbsp; / &nbsp; 纹饰</small><strong>重莲瓣纹碗</strong></figcaption></figure>
+          <figure><div class="plate-photo"><img src="picture/huakoulianban.jpg" width="640" height="551" alt="尊口如花瓣起伏，腹部有凸起的莲瓣" loading="lazy"></div><figcaption><small>PLATE 03 &nbsp; / &nbsp; 器形</small><strong>花口莲瓣纹尊</strong></figcaption></figure>
+        </div>
+        <div class="plate-choices"><label for="plate1">01</label><label for="plate2">02</label><label for="plate3">03</label></div>
+      </fieldset>
     </div>
-
-    <div class="hero-stats" aria-label="文化图谱概览数据">
-      <div class="hero-stat"><strong>100+</strong><span>东钱湖古窑遗存</span></div>
-      <div class="hero-stat-sep" aria-hidden="true"></div>
-      <div class="hero-stat"><strong>1700年</strong><span>东汉至当代窑火</span></div>
-      <div class="hero-stat-sep" aria-hidden="true"></div>
-      <div class="hero-stat"><strong>8大工序</strong><span>封釉还原核心技艺</span></div>
-      <div class="hero-stat-sep" aria-hidden="true"></div>
-      <div class="hero-stat"><strong>31节点</strong><span>多维文化关系图谱</span></div>
-    </div>
+    <nav class="exhibition-index" aria-label="专题导览">
+      <a href="#craft"><small>01 / 工艺</small><strong>一抔湖泥如何成瓷</strong><i aria-hidden="true">↗</i></a>
+      <a href="#compare"><small>02 / 鉴赏</small><strong>把残片与新作并看</strong><i aria-hidden="true">↗</i></a>
+      <a href="#cc-gallery"><small>03 / 文创</small><strong>看秘色走入日常</strong><i aria-hidden="true">↗</i></a>
+    </nav>
   </div>
-
-  <button type="button" class="hero-scroll" onclick="scrollToSection('knowledge-graph')" aria-label="向下滚动探索知识图谱">
-    <span>探索秘色宇宙</span>
-    <span class="hero-scroll-arrow">↓</span>
-  </button>
 </section>
 
 <!-- ===== Module 2: 知识图谱交互探索 ===== -->
