@@ -172,19 +172,19 @@ function drawInheritorGraph() {
   const link = linkG.selectAll('line')
     .data(links)
     .join('line')
-    .attr('stroke', '#d4c5a9')
-    .attr('stroke-width', 2)
-    .attr('stroke-dasharray', d => d.source.id === 'f' ? '6,3' : 'none')
-    .attr('opacity', 0.7);
+    .attr('stroke', '#c4a87c')
+    .attr('stroke-width', 2.2)
+    .attr('stroke-dasharray', d => d.source.id === 'f' ? '6,4' : 'none')
+    .attr('opacity', 0.65);
 
   // Link labels
   const linkLabel = linkG.selectAll('text')
     .data(links)
     .join('text')
-    .attr('class', 'link-label')
+    .attr('class', 'link-label kg-edge-label')
     .attr('text-anchor', 'middle')
-    .attr('font-size', 10)
-    .attr('fill', '#9c8e78')
+    .attr('font-size', 10.5)
+    .attr('fill', '#7a6c56')
     .text(d => d.label);
 
   // Nodes
@@ -192,7 +192,7 @@ function drawInheritorGraph() {
     .selectAll('g.node')
     .data(nodes)
     .join('g')
-    .attr('class', 'node')
+    .attr('class', 'node kg-node')
     .style('cursor', 'pointer')
     .call(d3.drag()
       .on('start', (event, d) => {
@@ -208,17 +208,25 @@ function drawInheritorGraph() {
       }));
 
   nodeG.append('circle')
+    .attr('class', 'kg-node-halo')
+    .attr('r', d => (d.type === 'ancestor' ? 28 : 24) + 8)
+    .attr('fill', d => nodeColors[d.type])
+    .attr('opacity', 0.16);
+
+  nodeG.append('circle')
+    .attr('class', 'kg-node-main')
     .attr('r', d => d.type === 'ancestor' ? 26 : 22)
     .attr('fill', d => nodeColors[d.type])
-    .attr('stroke', d => d3.color(nodeColors[d.type]).darker(0.3))
-    .attr('stroke-width', 2.5);
+    .attr('stroke', '#ffffff')
+    .attr('stroke-width', 2.8);
 
   nodeG.append('text')
     .attr('text-anchor', 'middle')
     .attr('dy', '0.35em')
-    .attr('font-size', d => d.type === 'ancestor' ? 14 : 11)
+    .attr('font-size', d => d.type === 'ancestor' ? 14 : 12)
     .attr('fill', '#fff')
     .attr('font-weight', 600)
+    .style('text-shadow', 'none')
     .text(d => d.label.charAt(0));
 
   // Label below node
@@ -226,9 +234,10 @@ function drawInheritorGraph() {
     .selectAll('text')
     .data(nodes)
     .join('text')
+    .attr('class', 'kg-node-label')
     .attr('text-anchor', 'middle')
-    .attr('font-size', 11)
-    .attr('fill', '#5c4c30')
+    .attr('font-size', 12)
+    .attr('fill', '#2c2416')
     .attr('font-weight', 600)
     .text(d => d.label);
 
@@ -236,9 +245,10 @@ function drawInheritorGraph() {
     .selectAll('text')
     .data(nodes)
     .join('text')
+    .attr('class', 'kg-edge-label')
     .attr('text-anchor', 'middle')
-    .attr('font-size', 9)
-    .attr('fill', '#9c8e78')
+    .attr('font-size', 9.5)
+    .attr('fill', '#8c7e68')
     .text(d => d.sub);
 
   // Click
@@ -301,9 +311,12 @@ function showInheritorDetail(d) {
 
   let extra = '';
   if (['wcq', 'wgl', 'zll'].includes(d.id)) {
-    extra = `<div style="width:120px;height:120px;border-radius:50%;overflow:hidden;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;">${getImageWithFallback(INH_ID_MAP[d.id], d.label, '', 'person')}</div>`;
+    extra = `<div style="width:120px;height:120px;border-radius:50%;overflow:hidden;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 4px #fff, 0 0 0 6px var(--celadon-200);">${getImageWithFallback(INH_ID_MAP[d.id], d.label, '', 'person')}</div>`;
+  } else if (d.id === 'dp' || d.id === 'clay') {
+    const imgKey = d.id === 'dp' ? 'vessel-dongqianhu' : 'clay';
+    extra = `<div style="width:100%;height:150px;border-radius:14px;overflow:hidden;margin:0 auto 1rem;">${getImageWithFallback(imgKey, d.label, 'kg-panel-img', d.type)}</div>`;
   } else {
-    extra = `<div style="width:90px;height:90px;border-radius:50%;background:${colorMap[d.type]};margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;color:#fff;font-size:2rem;font-weight:700;">${d.label.charAt(0)}</div>`;
+    extra = `<div style="width:88px;height:88px;border-radius:50%;background:linear-gradient(145deg, ${colorMap[d.type]}, #9e7f3a);margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-display);font-size:2rem;font-weight:700;box-shadow:0 0 0 4px #fff, 0 0 0 6px rgba(201,169,92,0.35);">${d.label.charAt(0)}</div>`;
   }
 
   const relatedLinks = [
@@ -344,9 +357,10 @@ function deselectInheritor() {
   if (!panel) return;
   panel.classList.add('empty');
   panel.innerHTML = `
-    <div>
-      <div style="font-size:3rem;margin-bottom:1rem;">👆</div>
-      <p>点击星谱中的任意节点<br>查看人物与关联故事</p>
+    <div class="panel-empty-state">
+      <div class="panel-empty-icon"><svg class="icon" aria-hidden="true"><use href="#icon-hand"/></svg></div>
+      <h4>人物与关联</h4>
+      <p>点击星谱中的任意节点<br>查看师承脉络与匠心故事</p>
     </div>
   `;
 }
