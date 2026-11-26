@@ -1,23 +1,50 @@
 /* ============================================
-   知识库与检索模块 - 全局搜索 + 分类浏览
+   知识库与检索模块 - 全局搜索 · 分类浏览 · 详情档案
    ============================================ */
 
 let kbActiveCat = 'all';
 let kbSearchQuery = '';
+let toastTimer = null;
+
+const KB_CAT_TYPE = {
+  '窑址': 'kiln', '人物': 'person', '器物': 'vessel',
+  '工艺': 'process', '纹样': 'pattern', '文创': 'cc'
+};
+
+const KB_CAT_COLOR = {
+  '窑址': '#e07050', '人物': '#6b8ec9', '器物': '#5aad89',
+  '工艺': '#f0c060', '纹样': '#c97bbf', '文创': '#e8a840'
+};
 
 function initKnowledgeBase() {
   renderKBResults();
 
-  // Search input
   const searchInput = document.getElementById('kbSearch');
+  const clearBtn = document.getElementById('kbSearchClear');
+
+  const syncClearVisibility = () => {
+    if (clearBtn && searchInput) {
+      clearBtn.classList.toggle('visible', searchInput.value.trim().length > 0);
+    }
+  };
+
   if (searchInput) {
     searchInput.addEventListener('input', debounce(function() {
       kbSearchQuery = this.value.trim().toLowerCase();
+      syncClearVisibility();
       renderKBResults();
-    }, 300));
+    }, 140));
   }
 
-  // Category buttons
+  clearBtn?.addEventListener('click', () => {
+    if (!searchInput) return;
+    searchInput.value = '';
+    kbSearchQuery = '';
+    syncClearVisibility();
+    renderKBResults();
+    searchInput.focus();
+  });
+
   document.querySelectorAll('.kb-cat-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       document.querySelectorAll('.kb-cat-btn').forEach(b => b.classList.remove('active'));
@@ -30,16 +57,15 @@ function initKnowledgeBase() {
 
 function renderKBResults() {
   const container = document.getElementById('kbResults');
+  const countEl = document.getElementById('kbCount');
   if (!container) return;
 
   let entries = KB_ENTRIES;
 
-  // Filter by category
   if (kbActiveCat !== 'all') {
     entries = entries.filter(e => e.cat === kbActiveCat);
   }
 
-  // Filter by search
   if (kbSearchQuery) {
     entries = entries.filter(e =>
       e.title.toLowerCase().includes(kbSearchQuery) ||
@@ -49,52 +75,113 @@ function renderKBResults() {
     );
   }
 
-  const catIcons = {
-    '窑址': '🏛️', '人物': '👤', '器物': '🏺', '工艺': '🔥', '纹样': '🎨', '文创': '💰'
-  };
+  if (countEl) {
+    const scopeLabel = kbActiveCat === 'all' ? '全部档案' : `「${kbActiveCat}」分类`;
+    countEl.textContent = kbSearchQuery
+      ? `${scopeLabel}中找到 ${entries.length} 条匹配档案`
+      : `${scopeLabel} · 共 ${entries.length} 条知识档案`;
+  }
 
   if (entries.length === 0) {
     container.innerHTML = `
-      <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">
-        <div style="font-size:3rem;margin-bottom:1rem;">🔍</div>
-        <p>未找到匹配的知识条目</p>
-        <p style="font-size:0.85rem;">请尝试其他关键词或分类</p>
+      <div class="kb-empty">
+        <svg class="icon-empty" aria-hidden="true"><use href="#icon-search"/></svg>
+        <p style="font-size:1rem;color:var(--celadon-800);margin-bottom:0.35rem;">未找到匹配的知识档案</p>
+        <p style="font-size:0.84rem;">请尝试更换关键词，或切换至“全部”分类浏览</p>
       </div>
     `;
     return;
   }
 
-  container.innerHTML = entries.map(e => `
-    <div class="kb-card fade-in">
-      <div class="kb-card-cat">${catIcons[e.cat] || '📄'} ${e.cat}</div>
+  container.innerHTML = entries.map((e, i) => `
+    <div class="kb-card fade-in" style="transition-delay:${Math.min(i * 25, 220)}ms" onclick="openKBDetail('${e.id}')" title="点击查看完整档案">
+      <div class="kb-card-cat"><span class="cat-dot" style="background:${KB_CAT_COLOR[e.cat] || '#5aad89'}"></span>${e.cat}</div>
       <h4>${highlightMatch(e.title)}</h4>
       <p>${highlightMatch(e.desc)}</p>
-      <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.75rem;">
-        ${e.tags.map(t => `<span style="font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:10px;background:var(--celadon-50);color:var(--celadon-600);">${highlightMatch(t)}</span>`).join('')}
+      <div style="display:flex;flex-wrap:wrap;gap:0.32rem;margin-bottom:0.85rem;">
+        ${e.tags.map(t => `<span style="font-size:0.68rem;padding:0.18rem 0.56rem;border-radius:999px;background:var(--celadon-50);color:var(--celadon-700);">${highlightMatch(t)}</span>`).join('')}
       </div>
       <div class="kb-card-footer">
-        <span class="kb-card-source">📚 ${e.source} · ${e.year}</span>
-        <span class="kb-card-share" onclick="shareKBCard(event, '${e.id}')" title="分享">📤 分享</span>
+        <span class="kb-card-source">${e.source} · ${e.year}</span>
+        <span class="kb-card-share" onclick="shareKBCard(event, '${e.id}')" title="复制档案摘要">分享</span>
       </div>
     </div>
   `).join('');
 
-  // Re-trigger fade-in animations
-  setTimeout(() => {
-    document.querySelectorAll('.kb-card.fade-in').forEach(el => {
+  requestAnimationFrame(() => {
+    container.querySelectorAll('.kb-card.fade-in').forEach(el => {
       el.classList.add('visible');
     });
-  }, 50);
+  });
 }
 
 function highlightMatch(text) {
   if (!kbSearchQuery) return text;
   const regex = new RegExp(`(${escapeRegExp(kbSearchQuery)})`, 'gi');
-  return text.replace(regex, '<mark style="background:var(--celadon-100);color:var(--celadon-700);padding:0 2px;border-radius:2px;">$1</mark>');
+  return text.replace(regex, '<mark style="background:var(--celadon-100);color:var(--celadon-800);padding:0 3px;border-radius:3px;">$1</mark>');
 }
 
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// 知识卡片与图片/艺术图鉴卡映射
+const KB_IMAGE_REF = {
+  'kb-1': 'kiln-guojiazhi',
+  'kb-2': 'kiln-guotongao',
+  'kb-3': 'kiln-shangshuiao',
+  'kb-4': 'kiln-laohuyan',
+  'kb-5': 'person-wenguoli',
+  'kb-6': 'person-zhaolulu',
+  'kb-7': 'person-wenchangqing',
+  'kb-9': 'vessel-huakouzun',
+  'kb-10': 'shard-fengwen',
+  'kb-11': 'vessel-quezao',
+  'kb-12': 'vessel-dongqianhu',
+  'kb-14': 'process-zhuangxia',
+  'kb-15': 'process-caitu',
+  'kb-16': 'process-shaoyao',
+  'kb-17': 'pattern-lianhe',
+  'kb-18': 'pattern-duidie',
+  'kb-19': 'pattern-yingwu',
+  'kb-20': 'pattern-ying',
+  'kb-21': 'ccp-1',
+  'kb-22': 'ccp-3',
+  'kb-23': 'ccp-5',
+  'kb-24': 'ccp-6',
+};
+
+function openKBDetail(id) {
+  const e = KB_ENTRIES.find(x => x.id === id);
+  if (!e) return;
+
+  const imgRef = KB_IMAGE_REF[id] || '';
+  const type = KB_CAT_TYPE[e.cat] || 'vessel';
+  const color = KB_CAT_COLOR[e.cat] || '#5aad89';
+  const imgHtml = imgRef ? `
+    <div style="width:100%;height:240px;border-radius:16px;overflow:hidden;margin-bottom:1.5rem;background:var(--celadon-50);">
+      ${getImageWithFallback(imgRef, e.title, 'kg-panel-img', type)}
+    </div>
+  ` : '';
+
+  document.getElementById('modalBody').innerHTML = `
+    ${imgHtml}
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.9rem;">
+      <span style="display:inline-flex;align-items:center;font-size:0.75rem;padding:0.28rem 0.9rem;border-radius:999px;background:var(--celadon-50);color:var(--celadon-700);"><span class="cat-dot" style="background:${color}"></span>${e.cat}</span>
+      <span style="font-size:0.75rem;padding:0.28rem 0.9rem;border-radius:999px;background:rgba(201,169,92,0.18);color:var(--lake-clay-dark);">${e.year}</span>
+    </div>
+    <h2 style="color:var(--celadon-800);margin-bottom:0.9rem;">${e.title}</h2>
+    <p style="font-size:1rem;line-height:1.9;color:var(--text-secondary);margin-bottom:1.4rem;">${e.desc}</p>
+    <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.5rem;">
+      ${e.tags.map(t => `<span style="font-size:0.72rem;padding:0.24rem 0.72rem;border-radius:999px;background:var(--celadon-50);color:var(--celadon-700);">${t}</span>`).join('')}
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding-top:1rem;border-top:1px solid var(--border-color);">
+      <span style="font-size:0.8rem;color:var(--text-muted);">来源：${e.source}</span>
+      <button class="btn btn-outline" onclick="shareKBCard(event, '${e.id}')">复制分享此档案</button>
+    </div>
+  `;
+
+  document.getElementById('modalOverlay').classList.add('open');
 }
 
 function shareKBCard(event, id) {
@@ -104,36 +191,35 @@ function shareKBCard(event, id) {
 
   const shareText = `【东钱湖秘色瓷知识图谱】${entry.title}——${entry.desc}`;
 
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(shareText).then(() => {
-      showToast('✅ 已复制到剪贴板');
-    });
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(shareText)
+      .then(() => showToast('档案摘要已复制到剪贴板'))
+      .catch(() => showToast('已生成档案分享内容'));
   } else {
-    showToast('📤 ' + shareText);
+    showToast('已生成档案分享内容');
   }
 }
 
+// Sonner 风格可中断过渡浮层
 function showToast(message) {
-  // Remove existing toast
-  const existing = document.querySelector('.toast');
-  if (existing) existing.remove();
+  let toast = document.querySelector('.celadon-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.className = 'celadon-toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    document.body.appendChild(toast);
+  }
 
-  const toast = document.createElement('div');
-  toast.className = 'toast';
   toast.textContent = message;
-  toast.style.cssText = `
-    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
-    background: rgba(44, 36, 22, 0.9); color: #fff; padding: 0.75rem 1.5rem;
-    border-radius: 24px; font-size: 0.9rem; z-index: 3000;
-    animation: fadeInUp 0.3s ease;
-  `;
-  document.body.appendChild(toast);
+  requestAnimationFrame(() => {
+    toast.classList.add('show');
+  });
 
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transition = 'opacity 0.3s ease';
-    setTimeout(() => toast.remove(), 300);
-  }, 2000);
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2200);
 }
 
 function debounce(fn, delay) {
@@ -143,13 +229,3 @@ function debounce(fn, delay) {
     timer = setTimeout(() => fn.apply(this, args), delay);
   };
 }
-
-// Add fadeInUp animation
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translate(-50%, 20px); }
-    to { opacity: 1; transform: translate(-50%, 0); }
-  }
-`;
-document.head.appendChild(style);
